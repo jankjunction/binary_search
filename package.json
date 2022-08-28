@@ -1,0 +1,23 @@
+{
+    "name": "weather-app",
+    "version": "1.0.0",
+    "description": "",
+    "main": "main.js",
+    "private": true,
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "webpack",
+        "start": "webpack serve --open"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "MIT",
+    "devDependencies": {
+        "json5": "^2.2.1",
+        "toml": "^3.0.0",
+        "webpack": "^5.38.1",
+        "webpack-cli": "^4.7.2",
+        "webpack-dev-server": "^4.10.0",
+        "yamljs": "^0.3.0"
+    }
+}
