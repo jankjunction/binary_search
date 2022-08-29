@@ -1,4 +1,4 @@
-import mergeSort from './mergesort';
+import mergeSort from "./mergesort";
 
 class Node {
   constructor(data, left = null, right = null) {
@@ -18,7 +18,6 @@ class Tree {
     let initialArray = this.treeDataArray;
     let uniques = [...new Set(initialArray)];
     let sorted = mergeSort(uniques);
-    console.log(sorted);
 
     const builder = (array) => {
       if (!array) {
@@ -50,19 +49,38 @@ class Tree {
     };
     builder(sorted);
   }
+
+  insert(tree, key) {
+    if (tree.data === key) {
+      return;
+    }
+    if (key < tree.data && tree.left === null) {
+      return (tree.left = new Node(key));
+    } else if (key > tree.data && tree.right === null) {
+      return (tree.right = new Node(key));
+    } else {
+      if (key < tree.data) {
+        this.insert(tree.left, key);
+      } else {
+        this.insert(tree.right, key);
+      }
+    }
+  }
 }
 
-const prettyPrint = (node, prefix = '', isLeft = true) => {
+const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node.right !== null) {
-    prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+    prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
   }
-  console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
+  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
   if (node.left !== null) {
-    prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+    prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
   }
 };
 
 let WorldTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 WorldTree.buildTree();
+
+WorldTree.insert(WorldTree.root, 66);
 
 prettyPrint(WorldTree.root);
