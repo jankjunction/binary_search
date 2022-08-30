@@ -1,10 +1,21 @@
-import mergeSort from "./mergesort";
+import mergeSort from './mergesort';
 
 class Node {
   constructor(data, left = null, right = null) {
     this.data = data;
     this.left = left;
     this.right = right;
+  }
+
+  numChildren(node = this) {
+    let count = 0;
+    if (node.left) {
+      count += 1;
+    }
+    if (node.right) {
+      count += 1;
+    }
+    return count;
   }
 }
 
@@ -50,7 +61,7 @@ class Tree {
     builder(sorted);
   }
 
-  insert(tree, key) {
+  insert(key, tree = this.root) {
     if (tree.data === key) {
       return;
     }
@@ -60,27 +71,59 @@ class Tree {
       return (tree.right = new Node(key));
     } else {
       if (key < tree.data) {
-        this.insert(tree.left, key);
+        this.insert(key, tree.left);
       } else {
-        this.insert(tree.right, key);
+        this.insert(key, tree.right);
       }
+    }
+  }
+
+  minNode(tree = this.root) {
+    while (tree.left !== null) {
+      return this.minNode(tree.left);
+    }
+    return tree;
+  }
+
+  delete(key, tree = this.root, parent = null) {
+    while (parent) {
+      if (tree.data === key) {
+        console.log('your face');
+      }
+    }
+  }
+
+  find(key, tree = this.root) {
+    console.log(key, tree);
+    if (tree === null) {
+      return 'key not found in tree';
+    }
+    if (key === tree.data) {
+      return tree;
+    } else if (key < tree.data) {
+      return this.find(key, tree.left);
+    } else {
+      return this.find(key, tree.right);
     }
   }
 }
 
-const prettyPrint = (node, prefix = "", isLeft = true) => {
+const prettyPrint = (node, prefix = '', isLeft = true) => {
   if (node.right !== null) {
-    prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+    prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
   }
-  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
+  console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
   if (node.left !== null) {
-    prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+    prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
   }
 };
 
 let WorldTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 WorldTree.buildTree();
+console.log(WorldTree.root);
 
-WorldTree.insert(WorldTree.root, 66);
-
+WorldTree.insert(66, WorldTree.root);
+WorldTree.insert(777);
 prettyPrint(WorldTree.root);
+console.log(WorldTree.find(3));
+console.log(WorldTree.minNode(WorldTree.root.right));
