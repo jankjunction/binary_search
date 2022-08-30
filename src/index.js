@@ -108,6 +108,10 @@ class Tree {
   }
 }
 
+const returnValue = (node) => {
+  return node.data;
+};
+
 const prettyPrint = (node, prefix = '', isLeft = true) => {
   if (node.right !== null) {
     prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
