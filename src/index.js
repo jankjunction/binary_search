@@ -1,4 +1,5 @@
 import mergeSort from './mergesort';
+import Queue from './queue';
 
 class Node {
   constructor(data, left = null, right = null) {
@@ -78,23 +79,41 @@ class Tree {
     }
   }
 
-  minNode(tree = this.root) {
+  minValue(tree = this.root) {
     while (tree.left !== null) {
-      return this.minNode(tree.left);
+      return this.minValue(tree.left);
     }
+    return tree.data;
+  }
+
+  delete(key, tree = this.root) {
+    const deleteRec = (root, key) => {
+      if (root === null) {
+        return root;
+      } else {
+        if (key < root.data) {
+          root.left = deleteRec(root.left, key);
+        } else if (key > root.data) {
+          root.right = deleteRec(root.right, key);
+        } else {
+          console.log(root.left, root.right);
+          if (root.left === null) {
+            return root.right;
+          } else if (root.right === null) {
+            return root.left;
+          }
+          root.data = this.minValue(root.right);
+          root.right = deleteRec(root.right, root.data);
+        }
+        return root;
+      }
+    };
+
+    tree = deleteRec(this.root, key);
     return tree;
   }
 
-  delete(key, tree = this.root, parent = null) {
-    while (parent) {
-      if (tree.data === key) {
-        console.log('your face');
-      }
-    }
-  }
-
   find(key, tree = this.root) {
-    console.log(key, tree);
     if (tree === null) {
       return 'key not found in tree';
     }
@@ -124,10 +143,9 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 
 let WorldTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 WorldTree.buildTree();
-console.log(WorldTree.root);
-
 WorldTree.insert(66, WorldTree.root);
 WorldTree.insert(777);
 prettyPrint(WorldTree.root);
-console.log(WorldTree.find(3));
-console.log(WorldTree.minNode(WorldTree.root.right));
+WorldTree.delete(7);
+console.log(WorldTree.root);
+prettyPrint(WorldTree.root);
