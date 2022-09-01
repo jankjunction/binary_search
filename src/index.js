@@ -125,6 +125,20 @@ class Tree {
       return this.find(key, tree.right);
     }
   }
+
+  levelOrder(fnct, tree = this.root) {
+    let queue = new Queue();
+    queue.enqueue(tree);
+    while (queue.array.length > 0) {
+      if (queue.array[0].left !== null) {
+        queue.enqueue(queue.array[0].left);
+      }
+      if (queue.array[0].right !== null) {
+        queue.enqueue(queue.array[0].right);
+      }
+      fnct(queue.dequeue());
+    }
+  }
 }
 
 const returnValue = (node) => {
@@ -146,6 +160,4 @@ WorldTree.buildTree();
 WorldTree.insert(66, WorldTree.root);
 WorldTree.insert(777);
 prettyPrint(WorldTree.root);
-WorldTree.delete(7);
-console.log(WorldTree.root);
-prettyPrint(WorldTree.root);
+console.log(WorldTree.levelOrder(returnValue));

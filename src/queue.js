@@ -1,12 +1,12 @@
 class Queue {
-  constructor(array) {
-    this.array = array;
+  constructor() {
+    this.array = [];
   }
   enqueue(value) {
-    this.array.push(value);
+    return this.array.push(value);
   }
   dequeue() {
-    this.array.shift();
+    return this.array.shift();
   }
 }
 
