@@ -169,6 +169,34 @@ class Tree {
       fnct(tree);
     }
   }
+
+  height(node) {
+    if (node === null) {
+      return -1;
+    } else {
+      let left = this.height(node.left);
+      let right = this.height(node.right);
+      return Math.max(left, right) + 1;
+    }
+  }
+
+  depth(node) {
+    let edges = 0;
+
+    const depthRec = (node, tree = this.root) => {
+      if (node === tree) {
+        return;
+      } else if (node.data < tree.data) {
+        edges += 1;
+        depthRec(node, tree.left);
+      } else {
+        edges += 1;
+        depthRec(node, tree.right);
+      }
+    };
+    depthRec(node);
+    return edges;
+  }
 }
 
 const returnValue = (node) => {
@@ -192,3 +220,4 @@ WorldTree.insert(66, WorldTree.root);
 WorldTree.insert(777);
 prettyPrint(WorldTree.root);
 console.log(WorldTree.postOrder(returnValue));
+console.log(WorldTree.depth(WorldTree.find(7)));
