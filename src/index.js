@@ -139,9 +139,40 @@ class Tree {
       fnct(queue.dequeue());
     }
   }
+
+  preOrder(fnct, tree = this.root) {
+    if (tree === null) {
+      return;
+    } else {
+      fnct(tree);
+      this.preOrder(fnct, tree.left);
+      this.preOrder(fnct, tree.right);
+    }
+  }
+
+  inOrder(fnct, tree = this.root) {
+    if (tree === null) {
+      return;
+    } else {
+      this.inOrder(fnct, tree.left);
+      fnct(tree);
+      this.inOrder(fnct, tree.right);
+    }
+  }
+
+  postOrder(fnct, tree = this.root) {
+    if (tree === null) {
+      return;
+    } else {
+      this.postOrder(fnct, tree.left);
+      this.postOrder(fnct, tree.right);
+      fnct(tree);
+    }
+  }
 }
 
 const returnValue = (node) => {
+  console.log(node.data);
   return node.data;
 };
 
@@ -160,4 +191,4 @@ WorldTree.buildTree();
 WorldTree.insert(66, WorldTree.root);
 WorldTree.insert(777);
 prettyPrint(WorldTree.root);
-console.log(WorldTree.levelOrder(returnValue));
+console.log(WorldTree.postOrder(returnValue));
