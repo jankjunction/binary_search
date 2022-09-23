@@ -141,33 +141,48 @@ class Tree {
   }
 
   preOrder(fnct, tree = this.root) {
-    if (tree === null) {
-      return;
-    } else {
-      fnct(tree);
-      this.preOrder(fnct, tree.left);
-      this.preOrder(fnct, tree.right);
-    }
+    let values = [];
+    const preOrderRec = (fnct, tree = this.root) => {
+      if (tree === null) {
+        return;
+      } else {
+        values.push(fnct(tree));
+        preOrderRec(fnct, tree.left);
+        preOrderRec(fnct, tree.right);
+      }
+    };
+    preOrderRec(fnct);
+    return values;
   }
 
-  inOrder(fnct, tree = this.root) {
-    if (tree === null) {
-      return;
-    } else {
-      this.inOrder(fnct, tree.left);
-      fnct(tree);
-      this.inOrder(fnct, tree.right);
-    }
+  inOrder(fnct) {
+    let values = [];
+    const inOrderRec = (fnct, tree = this.root) => {
+      if (tree === null) {
+        return;
+      } else {
+        inOrderRec(fnct, tree.left);
+        values.push(fnct(tree));
+        inOrderRec(fnct, tree.right);
+      }
+    };
+    inOrderRec(fnct);
+    return values;
   }
 
   postOrder(fnct, tree = this.root) {
-    if (tree === null) {
-      return;
-    } else {
-      this.postOrder(fnct, tree.left);
-      this.postOrder(fnct, tree.right);
-      fnct(tree);
-    }
+    let values = [];
+    const postOrderRec = (fnct, tree = this.root) => {
+      if (tree === null) {
+        return;
+      } else {
+        postOrderRec(fnct, tree.left);
+        postOrderRec(fnct, tree.right);
+        values.push(fnct(tree));
+      }
+    };
+    postOrderRec(fnct);
+    return values;
   }
 
   height(node) {
@@ -197,10 +212,26 @@ class Tree {
     depthRec(node);
     return edges;
   }
+
+  isBalanced() {
+    let tree = this.root;
+    let leftHeight = this.height(tree.left);
+    let rightHeight = this.height(tree.right);
+    if (Math.abs(leftHeight - rightHeight) <= 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  rebalance() {
+    let array = this.inOrder(returnValue, this.root);
+    this.treeDataArray = array;
+    return this.buildTree();
+  }
 }
 
 const returnValue = (node) => {
-  console.log(node.data);
   return node.data;
 };
 
@@ -218,6 +249,10 @@ let WorldTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 WorldTree.buildTree();
 WorldTree.insert(66, WorldTree.root);
 WorldTree.insert(777);
+WorldTree.insert(778);
 prettyPrint(WorldTree.root);
-console.log(WorldTree.postOrder(returnValue));
-console.log(WorldTree.depth(WorldTree.find(7)));
+console.log(WorldTree.inOrder(returnValue));
+console.log(WorldTree.isBalanced());
+WorldTree.rebalance();
+prettyPrint(WorldTree.root);
+console.log(WorldTree.isBalanced());
