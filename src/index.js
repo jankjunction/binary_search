@@ -245,14 +245,36 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
   }
 };
 
-let WorldTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-WorldTree.buildTree();
-WorldTree.insert(66, WorldTree.root);
-WorldTree.insert(777);
-WorldTree.insert(778);
-prettyPrint(WorldTree.root);
-console.log(WorldTree.inOrder(returnValue));
-console.log(WorldTree.isBalanced());
-WorldTree.rebalance();
-prettyPrint(WorldTree.root);
-console.log(WorldTree.isBalanced());
+const driver = () => {
+  let array = Array.from({ length: 40 }, () => Math.floor(Math.random() * 40));
+  let driverTree = new Tree(array);
+  driverTree.buildTree();
+  console.log(driverTree.isBalanced());
+  prettyPrint(driverTree.root);
+  driverTree.insert(567);
+  driverTree.insert(789);
+  driverTree.insert(891);
+  console.log(driverTree.isBalanced());
+  prettyPrint(driverTree.root);
+  driverTree.rebalance();
+  console.log(driverTree.isBalanced());
+  prettyPrint(driverTree.root);
+
+  console.log(driverTree.preOrder(returnValue));
+  console.log(driverTree.inOrder(returnValue));
+  console.log(driverTree.postOrder(returnValue));
+};
+
+// let WorldTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+// WorldTree.buildTree();
+// WorldTree.insert(66, WorldTree.root);
+// WorldTree.insert(777);
+// WorldTree.insert(778);
+// prettyPrint(WorldTree.root);
+// console.log(WorldTree.inOrder(returnValue));
+// console.log(WorldTree.isBalanced());
+// WorldTree.rebalance();
+// prettyPrint(WorldTree.root);
+// console.log(WorldTree.isBalanced());
+
+driver();
